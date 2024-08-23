@@ -16,6 +16,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Steps for flashing:
+//   0) Ubuntu: sudo apt install -y git python3-pip
+//      Arch: sudo pacman --needed --noconfirm -S git python-pip libffi
+//   1) git clone https://github.com/deku-Scrub/qmk_firmware
+//   2) cd qmk_firmware
+//   3) qmk setup --home /home/deku/code/qmk_firmware
+//   4) qmk compile -kb crkbd -km deku
+//   5) press reset button on the left half
+//   6) qmk flash -kb crkbd -km deku
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
@@ -23,242 +32,71 @@ enum layers {
     BASE,  // default layer
     NUMB,  // numbers
     SYMB,  // symbols
-    UPPR,  // shift
     EXTD,  // extend
     //MDIA,  // media keys
 };
 
-enum custom_keycodes {
-    VRSN = SAFE_RANGE,
-    TOGM,
-    TOGS,
-    GOEX,
-    STAB,
-    LPRP,
-    LARA,
-    LSRS,
-    LVRV,
-};
-
-enum {
-    TD_PGDN_END,
-    TD_PGUP_HOME,
-};
-
-qk_tap_dance_action_t tap_dance_actions[] = {
-    [TD_PGDN_END] = ACTION_TAP_DANCE_DOUBLE(KC_PGDN, KC_END),
-    [TD_PGUP_HOME] = ACTION_TAP_DANCE_DOUBLE(KC_PGUP, KC_HOME),
-};
-
-enum combos {
-  WM_COMBO, // toggle window manager.
-  EX_COMBO, // toggle extend mode.
-  ENT_COMBO, // enter.
-  TAB_COMBO, // tab.
-  BSPC_COMBO, // backspace.
-  WMCY_COMBO, // window manager cycle.
-  WMMN_COMBO, // window manager monacle.
-  WMBR_COMBO, // window manager bar.
-  LSRS_COMBO,
-  LVRV_COMBO,
-  COMBO_LENGTH,
-};
-uint16_t COMBO_LEN = COMBO_LENGTH;
-
-const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END};
-const uint16_t PROGMEM hj_combo[] = {KC_H, KC_J, COMBO_END};
-const uint16_t PROGMEM lscln_combo[] = {KC_L, KC_SCLN, COMBO_END};
-const uint16_t PROGMEM kl_combo[] = {KC_K, KC_L, COMBO_END};
-const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM dk_combo[] = {KC_D, KC_K, COMBO_END};
-const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END};
-const uint16_t PROGMEM ui_combo[] = {KC_U, KC_I, COMBO_END};
-const uint16_t PROGMEM op_combo[] = {KC_O, KC_P, COMBO_END};
-const uint16_t PROGMEM ascln_combo[] = {KC_A, KC_SCLN, COMBO_END};
-combo_t key_combos[] = {
-    [WM_COMBO] = COMBO(df_combo, TOGM),
-    [EX_COMBO] = COMBO(hj_combo, GOEX),
-    [ENT_COMBO] = COMBO(lscln_combo, LARA),
-    [TAB_COMBO] = COMBO(kl_combo, STAB),
-    [BSPC_COMBO] = COMBO(jk_combo, LPRP),
-    [WMCY_COMBO] = COMBO(dk_combo, LGUI(KC_K)),
-    [WMMN_COMBO] = COMBO(fj_combo, LGUI(KC_F)),
-    [LSRS_COMBO] = COMBO(op_combo, LSRS),
-    [LVRV_COMBO] = COMBO(ui_combo, LVRV),
-    // TODO: LGUI(KC_SPC) does not work.
-    [WMBR_COMBO] = COMBO(ascln_combo, LGUI(KC_Q)),
-};
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    // AqwertyuiopB
+    // Tasdfghjkl;R
+    // Czxcvbnm,./C
+    // MNYHSE
   [BASE] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_LCTL,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_ENT,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         OSM(MOD_LGUI),    OSL(NUMB), OSL(SYMB), OSL(UPPR), KC_SPC, RCTL_T(KC_ESC)
-                                      //`--------------------------'  `--------------------------'
+  OSM(MOD_LALT), KC_Q, KC_W, KC_E, KC_R, KC_T,
+                           KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
+  KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G,
+                           KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT,
+  OSM(MOD_LCTL), KC_Z, KC_X, KC_C, KC_V, KC_B,
+                           KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, OSM(MOD_LCTL),
+  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+                           OSM(MOD_LSFT), KC_SPC, RCTL_T(KC_ESC)
   ),
 
+    // A!@#$%^&*-+B
+    // T1234567890R
+    // C?;:=XX|,./C
+    // MNY=SG
   [NUMB] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_MINS, KC_PLUS, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_ENT,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, S(KC_SLSH), KC_SCLN, KC_COLN, KC_EQL, XXXXXXX,                      XXXXXXX, KC_PIPE, KC_COMM, KC_DOT, KC_SLSH, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         VRSN,   TO(NUMB), OSL(SYMB), KC_EQL,  KC_SPC,  TO(BASE)
-                                      //`--------------------------'  `--------------------------'
+  OSM(MOD_LALT), KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC,
+                      KC_CIRC, KC_AMPR, KC_ASTR, KC_MINS, KC_PLUS, KC_BSPC,
+  KC_TAB, KC_1, KC_2, KC_3, KC_4, KC_5,
+                      KC_6, KC_7, KC_8, KC_9, KC_0, KC_ENT,
+  OSM(MOD_LCTL), S(KC_SLSH), KC_SCLN, KC_COLN, KC_EQL, XXXXXXX,
+                      XXXXXXX, KC_PIPE, KC_COMM, KC_DOT, KC_SLSH, OSM(MOD_LCTL),
+  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+                      KC_EQL, KC_SPC, TO(BASE)
   ),
 
+    // AXXXXXX`_\XB
+    // T"{[(XX)]}'R h+ins, ctrl+b
+    // CXXX<XQ>XX~C
+    // MNY_SG
   [SYMB] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_GRV, KC_UNDS, KC_BSLS, XXXXXXX, KC_BSPC, 
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB, KC_DQUO, KC_LCBR, KC_LBRC, KC_LPRN, XXXXXXX,                      XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_QUOT, KC_ENT, 
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_LABK, XXXXXXX,                      XXXXXXX, KC_RABK, XXXXXXX, XXXXXXX, KC_TILD, XXXXXXX, 
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         VRSN,   OSL(NUMB), TO(SYMB), KC_UNDS,  KC_SPC,  TO(BASE)
-                                      //`--------------------------'  `--------------------------'
+  OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                XXXXXXX, KC_GRV, KC_UNDS, KC_BSLS, XXXXXXX, KC_BSPC,
+  KC_TAB, KC_DQUO, KC_LCBR, KC_LBRC, KC_LPRN, C(KC_B),
+                XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_QUOT, KC_ENT,
+  OSM(MOD_LCTL), S(KC_INS), XXXXXXX, XXXXXXX, KC_LABK, XXXXXXX,
+                OSL(EXTD), KC_RABK, XXXXXXX, XXXXXXX, KC_TILD, OSM(MOD_LCTL),
+  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+                KC_UNDS, KC_SPC, TO(BASE)
   ),
 
-  [UPPR] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, S(KC_Q), S(KC_W), S(KC_E), S(KC_R), S(KC_T),                     S(KC_Y), S(KC_U), S(KC_I), S(KC_O), S(KC_P), KC_BSPC, 
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TAB, S(KC_A), S(KC_S), S(KC_D), S(KC_F), S(KC_G),                     S(KC_H), S(KC_J), S(KC_K), S(KC_L),S(KC_SCLN),KC_ENT, 
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, S(KC_Z), S(KC_X), S(KC_C), S(KC_V), S(KC_B),                     S(KC_N), S(KC_M), S(KC_COMM), S(KC_DOT), S(KC_SLSH), XXXXXXX, 
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         VRSN,   OSL(NUMB), OSL(SYMB), TO(UPPR),  KC_SPC, TO(BASE)
-                                      //`--------------------------'  `--------------------------'
-  ),
-
+    // A X X X   End  X    Home X  X  Ins  X B
+    // T X X Del PgDo X    Le   Do Up Ri   X R
+    // C X X X   X    PgUp X    X  X  X    X C
+    // MNYHSG
   [EXTD] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, C(KC_RGHT), XXXXXXX, C(KC_R), C(KC_T),                  C(KC_C), C(KC_Z), A(KC_LEFT), A(KC_RGHT), C(KC_V), XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, C(S(KC_T)), C(KC_W), XXXXXXX, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, C(KC_L), XXXXXXX, 
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, C(KC_LEFT),                  C(KC_PGDN), C(KC_PGUP), TD(TD_PGDN_END), TD(TD_PGUP_HOME), C(KC_F), XXXXXXX, 
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         VRSN,    XXXXXXX, XXXXXXX,    TOGS,     XXXXXXX, KC_ESC
-                                      //`--------------------------'  `--------------------------'
+  OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, KC_END, XXXXXXX,
+                   KC_HOME, XXXXXXX, XXXXXXX, KC_INS, XXXXXXX, KC_BSPC,
+  KC_TAB, XXXXXXX, XXXXXXX, KC_DEL, KC_PAGE_DOWN, XXXXXXX,
+                   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, XXXXXXX, KC_ENT,
+  OSM(MOD_LCTL), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAGE_UP,
+                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OSM(MOD_LCTL),
+  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+                   OSM(MOD_LSFT), KC_SPC, TO(BASE)
   )
 };
-
-bool toggle_key(bool state, uint16_t key) {
-    if (state) {
-        register_code(key);
-    }
-    else {
-        unregister_code(key);
-    }
-    return !state;
-}
-
-bool is_mod_on = false;
-bool is_lsft_on = false;
-bool is_extend_on = false;
-uint16_t prev_keycode = VRSN;
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (keycode != VRSN) {
-        prev_keycode = keycode;
-    }
-
-    if (record->event.pressed) {
-        switch (keycode) {
-        case TOGM:
-            is_mod_on = toggle_key(is_mod_on, KC_LGUI);
-            //return false;
-            break;
-        case GOEX:
-            if (is_extend_on) {
-                unregister_code(KC_LSFT);
-                layer_move(BASE);
-            }
-            else {
-                layer_move(EXTD);
-            }
-            is_lsft_on = false;
-            is_extend_on = !is_extend_on;
-            //return false;
-            break;
-        case TOGS:
-            is_lsft_on = toggle_key(is_lsft_on, KC_LSFT);
-            //return false;
-            break;
-        case LVRV:
-            if (IS_LAYER_ON(SYMB)) {
-                tap_code16(KC_LABK);
-                tap_code16(KC_RABK);
-            }
-            else {
-                tap_code(KC_U);
-                tap_code(KC_I);
-            }
-            return false;
-        case LSRS:
-            if (IS_LAYER_ON(SYMB)) {
-                tap_code16(KC_LCBR);
-                tap_code16(KC_RCBR);
-            }
-            else {
-                tap_code(KC_O);
-                tap_code(KC_P);
-            }
-            return false;
-        case LPRP:
-            if (IS_LAYER_ON(SYMB)) {
-                tap_code16(KC_LPRN);
-                tap_code16(KC_RPRN);
-                return false;
-            }
-            else {
-                tap_code(KC_BSPC);
-            }
-            break;
-        case LARA:
-            if (IS_LAYER_ON(SYMB)) {
-                tap_code16(KC_LBRC);
-                tap_code16(KC_RBRC);
-                return false;
-            }
-            else {
-                tap_code(KC_ENT);
-            }
-            break;
-        case STAB:
-            if (IS_LAYER_ON(UPPR)) {
-                register_code(KC_LSFT);
-                tap_code(KC_TAB);
-                unregister_code(KC_LSFT);
-            }
-            else {
-                tap_code(KC_TAB);
-            }
-            break;
-        case VRSN:
-            tap_code16(prev_keycode);
-            return false;
-            //break;
-            //switch (prev_keycode) {
-                //case TOGM:
-                    //is_mod_on = toggle_key(is_mod_on, KC_LGUI);
-                    ////return false;
-                    //break;
-                //default:
-                    //tap_code(prev_keycode);
-                    //break;
-            //}
-        }
-    }
-    return true;
-}
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
