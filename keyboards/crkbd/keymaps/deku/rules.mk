@@ -6,3 +6,4 @@ BOOTLOADER = atmel-dfu
 LTO_ENABLE      = yes
 COMBO_ENABLE = no
 TAP_DANCE_ENABLE = no
+KEY_OVERRIDE_ENABLE = yes

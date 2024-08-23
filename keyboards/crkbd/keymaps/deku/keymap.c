@@ -36,6 +36,16 @@ enum layers {
     //MDIA,  // media keys
 };
 
+
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_GUI, KC_SPC, A(KC_AT));
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+	&delete_key_override,
+	NULL // Null terminate the array of overrides!
+};
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // A qwert   yuiop B
     // T asdfg   hjkl; R
@@ -64,17 +74,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   OSM(MOD_LCTL), S(KC_SLSH), KC_SCLN, KC_COLN, KC_EQL, XXXXXXX,
                       XXXXXXX, KC_PIPE, KC_COMM, KC_DOT, KC_SLSH, OSM(MOD_LCTL),
   OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
-                      KC_EQL, KC_SPC, TO(BASE)
+                      A(KC_EXLM), KC_SPC, TO(BASE)
   ),
 
     // A XXXXX   X`_\X B
-    // T "{[(P   X)]}' R // P is ctrl+b
+    // T "{[(P   X)]}' R // P is alt+!
     // C IXX<X   Q>XX~ C // I is shift+insert, Q is EXTD layer
     //  M Nl Sl  _ S Bl
   [SYMB] = LAYOUT_split_3x6_3(
   OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                 XXXXXXX, KC_GRV, KC_UNDS, KC_BSLS, XXXXXXX, KC_BSPC,
-  KC_TAB, KC_DQUO, KC_LCBR, KC_LBRC, KC_LPRN, C(KC_B),
+  KC_TAB, KC_DQUO, KC_LCBR, KC_LBRC, KC_LPRN, A(KC_EXLM),
                 XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_QUOT, KC_ENT,
   OSM(MOD_LCTL), S(KC_INS), XXXXXXX, XXXXXXX, KC_LABK, XXXXXXX,
                 OSL(EXTD), KC_RABK, XXXXXXX, XXXXXXX, KC_TILD, OSM(MOD_LCTL),
