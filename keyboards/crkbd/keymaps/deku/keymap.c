@@ -37,10 +37,10 @@ enum layers {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    // AqwertyuiopB
-    // Tasdfghjkl;R
-    // Czxcvbnm,./C
-    // MNYHSE
+    // A qwert   yuiop B
+    // T asdfg   hjkl; R
+    // C zxcvb   nm,./ C
+    //  M Nl Sl  Sh S E
   [BASE] = LAYOUT_split_3x6_3(
   OSM(MOD_LALT), KC_Q, KC_W, KC_E, KC_R, KC_T,
                            KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
@@ -52,10 +52,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                            OSM(MOD_LSFT), KC_SPC, RCTL_T(KC_ESC)
   ),
 
-    // A!@#$%^&*-+B
-    // T1234567890R
-    // C?;:=XX|,./C
-    // MNY=SG
+    // A !@#$%   ^&*-+ B
+    // T 12345   67890 R
+    // C ?;:=X   X|,./ C
+    //  M Nl Sl  = S Bl
   [NUMB] = LAYOUT_split_3x6_3(
   OSM(MOD_LALT), KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC,
                       KC_CIRC, KC_AMPR, KC_ASTR, KC_MINS, KC_PLUS, KC_BSPC,
@@ -67,10 +67,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       KC_EQL, KC_SPC, TO(BASE)
   ),
 
-    // AXXXXXX`_\XB
-    // T"{[(XX)]}'R h+ins, ctrl+b
-    // CXXX<XQ>XX~C
-    // MNY_SG
+    // A XXXXX   X`_\X B
+    // T "{[(P   X)]}' R // P is ctrl+b
+    // C IXX<X   Q>XX~ C // I is shift+insert, Q is EXTD layer
+    //  M Nl Sl  _ S Bl
   [SYMB] = LAYOUT_split_3x6_3(
   OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                 XXXXXXX, KC_GRV, KC_UNDS, KC_BSLS, XXXXXXX, KC_BSPC,
@@ -82,13 +82,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_UNDS, KC_SPC, TO(BASE)
   ),
 
-    // A X X X   End  X    Home X  X  Ins  X B
-    // T X X Del PgDo X    Le   Do Up Ri   X R
-    // C X X X   X    PgUp X    X  X  X    X C
-    // MNYHSG
+    // A X X X   End  X    Home X  Ins X  X B
+    // T X X Del PgDo X    Le   Do Up  Ri X R
+    // C X X X   X    PgUp X    X  X   X  X C
+    //  M Nl Sl  Sh S Bl
   [EXTD] = LAYOUT_split_3x6_3(
   OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, KC_END, XXXXXXX,
-                   KC_HOME, XXXXXXX, XXXXXXX, KC_INS, XXXXXXX, KC_BSPC,
+                   KC_HOME, XXXXXXX, KC_INS, XXXXXXX, XXXXXXX, KC_BSPC,
   KC_TAB, XXXXXXX, XXXXXXX, KC_DEL, KC_PAGE_DOWN, XXXXXXX,
                    KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, XXXXXXX, KC_ENT,
   OSM(MOD_LCTL), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAGE_UP,
