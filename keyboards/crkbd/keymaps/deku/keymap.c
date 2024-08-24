@@ -37,73 +37,79 @@ enum layers {
 };
 
 
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_GUI, KC_SPC, A(KC_AT));
+const key_override_t gui_esc_key_override = ko_make_basic(MOD_MASK_GUI, KC_ESC, TO(BASE));
+const key_override_t alt_esc_key_override = ko_make_basic(MOD_MASK_ALT, KC_ESC, TO(BASE));
+const key_override_t ctrl_esc_key_override = ko_make_basic(MOD_MASK_CTRL, KC_ESC, TO(BASE));
+const key_override_t shift_esc_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_ESC, TO(BASE));
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
-	&delete_key_override,
-	NULL // Null terminate the array of overrides!
+    &gui_esc_key_override,
+    &shift_esc_key_override,
+    &alt_esc_key_override,
+    &ctrl_esc_key_override,
+    NULL // Null terminate the array of overrides!
 };
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    // A qwert   yuiop B
+    // M qwert   yuiop B
     // T asdfg   hjkl; R
     // C zxcvb   nm,./ C
-    //  M Nl Sl  Sh S E
+    //  A Nl Sl  Sh S E
   [BASE] = LAYOUT_split_3x6_3(
-  OSM(MOD_LALT), KC_Q, KC_W, KC_E, KC_R, KC_T,
+  OSM(MOD_LGUI), KC_Q, KC_W, KC_E, KC_R, KC_T,
                            KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC,
   KC_TAB, KC_A, KC_S, KC_D, KC_F, KC_G,
                            KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_ENT,
   OSM(MOD_LCTL), KC_Z, KC_X, KC_C, KC_V, KC_B,
                            KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, OSM(MOD_LCTL),
-  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
-                           OSM(MOD_LSFT), KC_SPC, RCTL_T(KC_ESC)
+  OSM(MOD_LALT), OSL(NUMB), OSL(SYMB),
+                           OSM(MOD_LSFT), KC_SPC, KC_ESC
   ),
 
-    // A !@#$%   ^&*-+ B
+    // M !@#$%   ^&*-+ B
     // T 12345   67890 R
     // C ?;:=X   X|,./ C
-    //  M Nl Sl  = S Bl
+    //  A Nl Sl  = S Bl
   [NUMB] = LAYOUT_split_3x6_3(
-  OSM(MOD_LALT), KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC,
+  OSM(MOD_LGUI), KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC,
                       KC_CIRC, KC_AMPR, KC_ASTR, KC_MINS, KC_PLUS, KC_BSPC,
   KC_TAB, KC_1, KC_2, KC_3, KC_4, KC_5,
                       KC_6, KC_7, KC_8, KC_9, KC_0, KC_ENT,
   OSM(MOD_LCTL), S(KC_SLSH), KC_SCLN, KC_COLN, KC_EQL, XXXXXXX,
                       XXXXXXX, KC_PIPE, KC_COMM, KC_DOT, KC_SLSH, OSM(MOD_LCTL),
-  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+  OSM(MOD_LALT), OSL(NUMB), OSL(SYMB),
                       A(KC_EXLM), KC_SPC, TO(BASE)
   ),
 
-    // A XXXXX   X`_\X B
-    // T "{[(P   X)]}' R // P is alt+!
+    // M XXXXX   X`_\X B
+    // T "{[(X   X)]}' R
     // C IXX<X   Q>XX~ C // I is shift+insert, Q is EXTD layer
-    //  M Nl Sl  _ S Bl
+    //  A Nl Sl  _ S Bl
   [SYMB] = LAYOUT_split_3x6_3(
-  OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  OSM(MOD_LGUI), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                 XXXXXXX, KC_GRV, KC_UNDS, KC_BSLS, XXXXXXX, KC_BSPC,
-  KC_TAB, KC_DQUO, KC_LCBR, KC_LBRC, KC_LPRN, A(KC_EXLM),
+  KC_TAB, KC_DQUO, KC_LCBR, KC_LBRC, KC_LPRN, XXXXXXX,
                 XXXXXXX, KC_RPRN, KC_RBRC, KC_RCBR, KC_QUOT, KC_ENT,
   OSM(MOD_LCTL), S(KC_INS), XXXXXXX, XXXXXXX, KC_LABK, XXXXXXX,
                 OSL(EXTD), KC_RABK, XXXXXXX, XXXXXXX, KC_TILD, OSM(MOD_LCTL),
-  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+  OSM(MOD_LALT), OSL(NUMB), OSL(SYMB),
                 KC_UNDS, KC_SPC, TO(BASE)
   ),
 
-    // A X X X   End  X    Home X  Ins X  X B
+    // M X X X   End  X    Home X  Ins X  X B
     // T X X Del PgDo X    Le   Do Up  Ri X R
     // C X X X   X    PgUp X    X  X   X  X C
-    //  M Nl Sl  Sh S Bl
+    //  A Nl Sl  Sh S Bl
   [EXTD] = LAYOUT_split_3x6_3(
-  OSM(MOD_LALT), XXXXXXX, XXXXXXX, XXXXXXX, KC_END, XXXXXXX,
+  OSM(MOD_LGUI), XXXXXXX, XXXXXXX, XXXXXXX, KC_END, XXXXXXX,
                    KC_HOME, XXXXXXX, KC_INS, XXXXXXX, XXXXXXX, KC_BSPC,
   KC_TAB, XXXXXXX, XXXXXXX, KC_DEL, KC_PAGE_DOWN, XXXXXXX,
                    KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, XXXXXXX, KC_ENT,
   OSM(MOD_LCTL), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_PAGE_UP,
                    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OSM(MOD_LCTL),
-  OSM(MOD_LGUI), OSL(NUMB), OSL(SYMB),
+  OSM(MOD_LALT), OSL(NUMB), OSL(SYMB),
                    OSM(MOD_LSFT), KC_SPC, TO(BASE)
   )
 };
